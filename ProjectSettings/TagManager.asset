@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Character
+  - Shadow
+  - Pickup
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Item
+  - Attack
+  - Player
+  - Ground
+  - Wall
+  - Shadow
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 2284207677
+    locked: 0
+  - name: Fighter
+    uniqueID: 3084546167
+    locked: 0
+  - name: Item
+    uniqueID: 1447659939
+    locked: 0
+  - name: Shadow
+    uniqueID: 3637911789
+    locked: 0
+  - name: Middleground
+    uniqueID: 2186705247
+    locked: 0
+  - name: Ground
+    uniqueID: 926006943
+    locked: 0
+  - name: Background
+    uniqueID: 997283739
+    locked: 0

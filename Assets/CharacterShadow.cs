@@ -6,12 +6,12 @@ public class CharacterShadow : MonoBehaviour
 {
     public GameObject character;
 
-    public bool characterTouchingShadow;
+
     
     // Start is called before the first frame update
     void Start()
     {
-        characterTouchingShadow = false;
+        
     }
 
     // Update is called once per frame
@@ -22,7 +22,10 @@ public class CharacterShadow : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-
+        if(col.gameObject == character)
+        {
+            Debug.Log("Character touched collider");
+        }
 
     }
 }

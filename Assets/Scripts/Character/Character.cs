@@ -10,8 +10,6 @@ public class Character : MonoBehaviour
 
     public float jumpForce = 5.0f;
 
-    public float yOffset;
-
     GameObject characterSprite;
 
     GameObject characterShadow;
@@ -20,6 +18,16 @@ public class Character : MonoBehaviour
     public float inputVertical;
 
     public bool isGrounded;
+
+    bool touchingShadow;
+
+    public float groundYLocation;
+
+    public float groundXLocation;
+
+    Rigidbody2D rigidBody;
+
+    public bool inControl;
 
 
 
@@ -34,56 +42,58 @@ public class Character : MonoBehaviour
     {
         //Initialize the children
         characterSprite = this.gameObject.transform.GetChild(0).gameObject;
-        characterShadow = this.gameObject.transform.GetChild(1).gameObject;
 
-
+        inControl = true;
 
         //Initialize Input fields.
         inputHorizontal = inputVertical = 0;
 
-        yOffset = transform.position.y;
+        groundYLocation = transform.position.y;
+        groundXLocation = transform.position.x;
 
         isGrounded = false;
 
 
+        rigidBody = GetComponent<Rigidbody2D>();
 
 
     }
 
     protected void DetermineIfGrounded()
     {
-        if(characterSprite.transform.position.y <= yOffset)
+        if(characterSprite.transform.position.y <= groundYLocation)
         {
             isGrounded = true;
         }
-        else
-        {
-            isGrounded = false;
-        }
-
     }
 
-    protected void UpdateGravity()
-    {
-        if(isGrounded)
-        {
-            characterSprite.GetComponent<Rigidbody2D>().gravityScale = -1;
-        }
-        else
-        {
-            characterSprite.GetComponent<Rigidbody2D>().gravityScale = 1;
-        }
-
-    }
 
     protected void VerticalGroundMovement()
     {
-        if(isGrounded && inputVertical == 0)
-        {
-            Vector2 velocity = characterSprite.GetComponent<Rigidbody2D>().velocity;
+            
 
-            characterSprite.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x, 0);
+        //Vector2 velocity = characterSprite.GetComponent<Rigidbody2D>().velocity;
+
+        //float groundedSpeed = isGrounded ? 0 : velocity.y;
+
+        //characterSprite.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x, groundedSpeed);
+        
+        rigidBody.velocity = new Vector2(rigidBody.velocity.x, walkSpeedVertical * inputVertical);
+
+    }
+
+    protected void HorizontalGroundMovement()
+    {
+        Vector2 velocity = characterSprite.GetComponent<Rigidbody2D>().velocity;
+
+        characterSprite.GetComponent<Rigidbody2D>().velocity = new Vector2(inputHorizontal * walkSpeedHorizontal, velocity.y);
+        
+        if(inControl)
+        {
+            
         }
+
+        rigidBody.velocity = new Vector2(walkSpeedHorizontal * inputHorizontal, rigidBody.velocity.y);
 
     }
 
@@ -91,16 +101,38 @@ public class Character : MonoBehaviour
     void Update()
     {
         DetermineIfGrounded();
-        UpdateGravity();
+        RemainGrounded();
         VerticalGroundMovement();
+        HorizontalGroundMovement();
+        MoveCharacterSprite();
 
 
     }
 
+    protected void RemainGrounded()
+    {
+        if(isGrounded)
+        {
+            characterSprite.transform.position = new Vector2(characterSprite.transform.position.x, groundYLocation);
+        }
 
-    void Move()
+    }
+
+    protected void TouchDown()
     {
 
+        Vector2 velocity = characterSprite.GetComponent<Rigidbody2D>().velocity;
+
+        characterSprite.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x, 0);
+    }
+
+
+    protected void MoveCharacterSprite()
+    {
+        groundXLocation = transform.position.x;
+        groundYLocation = transform.position.y;
+
+       
 
     }
 

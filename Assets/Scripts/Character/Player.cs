@@ -14,7 +14,7 @@ public class Player : Character
     void Update()
     {
         DetermineIfGrounded();
-        UpdateGravity();
-        PreventVerticalVelocity();
+        Grounded();
+        Movement();
     }
 }

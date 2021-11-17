@@ -14,12 +14,14 @@ public class Character : MonoBehaviour
 
     GameObject characterSprite;
 
-    GameObject characterShadow;
+    Rigidbody2D spriteRigid;
 
     public float inputHorizontal;
     public float inputVertical;
 
     public bool isGrounded;
+
+    public bool isLimp;
 
 
 
@@ -34,9 +36,8 @@ public class Character : MonoBehaviour
     {
         //Initialize the children
         characterSprite = this.gameObject.transform.GetChild(0).gameObject;
-        characterShadow = this.gameObject.transform.GetChild(1).gameObject;
 
-
+        spriteRigid = characterSprite.GetComponent<Rigidbody2D>();
 
         //Initialize Input fields.
         inputHorizontal = inputVertical = 0;
@@ -45,6 +46,7 @@ public class Character : MonoBehaviour
 
         isGrounded = false;
 
+        isLimp = false;
 
 
 
@@ -56,18 +58,14 @@ public class Character : MonoBehaviour
         {
             isGrounded = true;
         }
-        else
-        {
-            isGrounded = false;
-        }
 
     }
 
-    protected void UpdateGravity()
+    protected void Grounded()
     {
         if(isGrounded)
         {
-            characterSprite.GetComponent<Rigidbody2D>().gravityScale = -1;
+            characterSprite.GetComponent<Rigidbody2D>().gravityScale = 0;
         }
         else
         {
@@ -76,33 +74,28 @@ public class Character : MonoBehaviour
 
     }
 
-    protected void VerticalGroundMovement()
-    {
-        if(isGrounded && inputVertical == 0)
-        {
-            Vector2 velocity = characterSprite.GetComponent<Rigidbody2D>().velocity;
-
-            characterSprite.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x, 0);
-        }
-
-    }
 
     // Update is called once per frame
     void Update()
     {
         DetermineIfGrounded();
-        UpdateGravity();
-        VerticalGroundMovement();
+        Grounded();
 
+        Movement();
+        
 
     }
 
-
-    void Move()
+    protected void Movement()
     {
-
+        spriteRigid.velocity = new Vector2(inputHorizontal * walkSpeedHorizontal, inputVertical * walkSpeedVertical);
 
     }
+
+
+
+
+
 
 
 }
